@@ -1,23 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
+import Video from './components/Video';
 
 function App() {
+  let obj = {
+    title: 'React JS tutorial',
+    views: '999K',
+    time: '1 year ago',
+    channel: 'Coder Dost',
+    verified: true,
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>Videos</div>
+      <Video {...obj}></Video>
+      <Video verified={true} title="Node JS tutorial" views="100K" time="1 month ago"></Video>
+      <Video
+        title="Mongo DB tutorial"
+        views="1M"
+        time="1 month ago"
+        channel="Coder Dost"
+      ></Video>
     </div>
   );
 }
