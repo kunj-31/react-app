@@ -1,25 +1,22 @@
-import './App.css';
-import Video from './components/Video';
+import { useState } from "react";
+import "./App.css";
+import AddVideo from "./components/AddVideo";
+import videoDB from "./data/data";
+import VideoList from "./components/VideoList";
 
 function App() {
-  let obj = {
-    title: 'React JS tutorial',
-    views: '999K',
-    time: '1 year ago',
-    channel: 'Coder Dost',
-    verified: true,
-  };
+  console.log("render App");
+
+  const [videos, setVideos] = useState(videoDB);
+
+  function addVideos(video) {
+    setVideos([...videos, { ...video, id: videos.length + 1 }]);
+  }
+
   return (
-    <div className="App">
-      <div>Videos</div>
-      <Video {...obj}></Video>
-      <Video verified={true} title="Node JS tutorial" views="100K" time="1 month ago"></Video>
-      <Video
-        title="Mongo DB tutorial"
-        views="1M"
-        time="1 month ago"
-        channel="Coder Dost"
-      ></Video>
+    <div className="App" onClick={() => console.log("App")}>
+      <AddVideo addVideos={addVideos}></AddVideo>
+      <VideoList videos={videos}></VideoList>
     </div>
   );
 }
