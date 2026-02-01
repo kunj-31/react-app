@@ -8,30 +8,15 @@ function App() {
   console.log("render App");
 
   const [videos, setVideos] = useState(videoDB);
-  const [editableVideo, setEditableVideo] = useState(null);
 
   function addVideos(video) {
     setVideos([...videos, { ...video, id: videos.length + 1 }]);
   }
 
-  function deleteVideo(id) {
-    setVideos(videos.filter((video) => video.id !== id));
-  }
-
-  function editVideo(id) {
-    setEditableVideo(videos.find((video) => video.id === id));
-  }
-
-  function updateVideo(video) {
-    setVideos(
-      videos.map((v) => (v.id === video.id ? video : v))
-    );
-  }
-
   return (
     <div className="App" onClick={() => console.log("App")}>
-      <AddVideo addVideos={addVideos} updateVideo={updateVideo} editableVideo={editableVideo}></AddVideo>
-      <VideoList deleteVideo={deleteVideo} editVideo={editVideo} videos={videos}></VideoList>
+      <AddVideo addVideos={addVideos}></AddVideo>
+      <VideoList videos={videos}></VideoList>
     </div>
   );
 }
