@@ -1,5 +1,5 @@
 import "./AddVideo.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const initialState={
     time: "1 month ago",
@@ -9,16 +9,12 @@ const initialState={
     views: "",
   }
 
-function AddVideo({ addVideos, updateVideo, editableVideo }) {
+function AddVideo({ addVideos }) {
   const [video, setVideos] = useState(initialState);
 
   function handleSumbit(e) {
     e.preventDefault();
-    if(editableVideo){
-      updateVideo(video);
-    }else{
-      addVideos(video);
-    }
+    addVideos(video);
     setVideos(initialState);
   }
 
@@ -29,12 +25,6 @@ function AddVideo({ addVideos, updateVideo, editableVideo }) {
       [e.target.name]: e.target.value,
     });
   }
-
-  useEffect(() => {
-    if (editableVideo){
-      setVideos(editableVideo);
-    }
-  }, [editableVideo]);
 
   return (
     <form>
@@ -54,8 +44,21 @@ function AddVideo({ addVideos, updateVideo, editableVideo }) {
       />
       <button
         onClick={handleSumbit}
+        // onClick={() => {
+        //   setVideos([
+        //     ...videos,
+        //     {
+        //       id: videos.length + 1,
+        //       title: "Demo JS tutorial",
+        //       views: "1M",
+        //       time: "1 month ago",
+        //       channel: "Coder Dost",
+        //       verified: true,
+        //     },
+        //   ]);
+        // }}
       >
-       { editableVideo ? "Edit Video" : "Add Video"}
+        Add Video
       </button>
     </form>
   );

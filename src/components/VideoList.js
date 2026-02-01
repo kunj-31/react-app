@@ -1,7 +1,7 @@
 import Video from "./Video";
 import PlayButton from "./PlayButton";
 
-function VideoList({ videos,deleteVideo,editVideo }) {
+function VideoList({ videos}) {
     return(
       <>
         {videos.map((video) => (
@@ -13,8 +13,6 @@ function VideoList({ videos,deleteVideo,editVideo }) {
           channel={video.channel}
           verified={video.verified}
           id={video.id}
-          deleteVideo={deleteVideo}
-          editVideo={editVideo}
         >
           <PlayButton
             onPlay={() => console.log("Playing..", video.title)}
