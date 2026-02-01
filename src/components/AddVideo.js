@@ -1,40 +1,39 @@
-import "./AddVideo.css";
-import { useEffect, useState } from "react";
+import './AddVideo.css';
+import {useEffect, useState} from 'react';
 
-const initialState={
-    time: "1 month ago",
-    channel: "Coder Dost",
+const initialState = {
+    time: '1 month ago',
+    channel: 'Coder Dost',
     verified: true,
-    title: "",
-    views: "",
+    title:'',
+    views:''
   }
 
-function AddVideo({ addVideos, updateVideo, editableVideo }) {
-  const [video, setVideos] = useState(initialState);
+function AddVideo({dispatch,editableVideo}) {
+  const [video, setVideo] = useState(initialState);
 
-  function handleSumbit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     if(editableVideo){
-      updateVideo(video);
+      dispatch({type:'UPDATE',payload:video})
     }else{
-      addVideos(video);
+      dispatch({type:'ADD',payload:video})
     }
-    setVideos(initialState);
-  }
+    
+    setVideo(initialState)
 
+  }
   function handleChange(e) {
-    console.log(e.target.name, e.target.value);
-    setVideos({
-      ...video,
-      [e.target.name]: e.target.value,
-    });
+    setVideo({...video,
+        [e.target.name] : e.target.value
+    })
   }
 
-  useEffect(() => {
-    if (editableVideo){
-      setVideos(editableVideo);
+  useEffect(()=>{
+    if(editableVideo){
+      setVideo(editableVideo)
     }
-  }, [editableVideo]);
+  },[editableVideo])
 
   return (
     <form>
@@ -53,9 +52,9 @@ function AddVideo({ addVideos, updateVideo, editableVideo }) {
         value={video.views}
       />
       <button
-        onClick={handleSumbit}
+        onClick={handleSubmit}
       >
-       { editableVideo ? "Edit Video" : "Add Video"}
+        {editableVideo?'Edit':'Add'} Video
       </button>
     </form>
   );

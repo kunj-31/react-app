@@ -1,37 +1,46 @@
-import { useState } from "react";
-import "./App.css";
-import AddVideo from "./components/AddVideo";
-import videoDB from "./data/data";
-import VideoList from "./components/VideoList";
-
+import { useReducer, useState } from 'react';
+import './App.css';
+import AddVideo from './components/AddVideo';
+import videoDB from './data/data';
+import VideoList from './components/VideoList';
 function App() {
-  console.log("render App");
+  console.log('render App')
+  const [editableVideo,setEditableVideo] = useState(null);
 
-  const [videos, setVideos] = useState(videoDB);
-  const [editableVideo, setEditableVideo] = useState(null);
+  function videoReducer(videos,action){
+    switch(action.type){
+      case 'ADD':
+        return [
+          ...videos,
+          {...action.payload, id: videos.length+1}
+        ]
+      case 'DELETE':
+        return videos.filter(video=>video.id!==action.payload)  
+      case 'UPDATE':
+        const index = videos.findIndex(v=>v.id===action.payload.id)
+        const newVideos = [...videos]
+        newVideos.splice(index,1,action.payload)
+        setEditableVideo(null);
+        return newVideos;
+      default:
+        return videos  
+    }
 
-  function addVideos(video) {
-    setVideos([...videos, { ...video, id: videos.length + 1 }]);
   }
 
-  function deleteVideo(id) {
-    setVideos(videos.filter((video) => video.id !== id));
-  }
+  const [videos,dispatch] = useReducer(videoReducer,videoDB)
 
-  function editVideo(id) {
-    setEditableVideo(videos.find((video) => video.id === id));
-  }
 
-  function updateVideo(video) {
-    setVideos(
-      videos.map((v) => (v.id === video.id ? video : v))
-    );
+  function editVideo(id){
+    setEditableVideo(videos.find(video=>video.id===id))
   }
 
   return (
-    <div className="App" onClick={() => console.log("App")}>
-      <AddVideo addVideos={addVideos} updateVideo={updateVideo} editableVideo={editableVideo}></AddVideo>
-      <VideoList deleteVideo={deleteVideo} editVideo={editVideo} videos={videos}></VideoList>
+    <div className="App" onClick={()=>console.log('App')}>
+       <AddVideo dispatch={dispatch} editableVideo={editableVideo}></AddVideo>
+       <VideoList dispatch={dispatch} editVideo={editVideo}  videos={videos}></VideoList>
+
+
     </div>
   );
 }
